@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using DbUp;
 using DbUp.Builder;
@@ -20,36 +21,65 @@ namespace EF_WWT.DbUp
         private static string MigrationFolderName => "Migrations";
         private static string LoaderFolderName => "Loaders";
 
-
-
-        public static void Main(string[] args)
+        static int Main(string[] args)
         {
             try
             {
-                WWTEnsureDatabase(EFWWTConnectionString); 
+                //DropDatabase.For.SqlDatabase(EFWWTConnectionString);
+                EnsureDatabase.For.SqlDatabase(EFWWTConnectionString);
 
 
-                var scripts = GetSqlScripts(MigrationFolderName).ToList();
-                var dbUpgradeResult = Migrate(EFWWTConnectionString, scripts, true, false);
+                var upgradeEngineBuilder = DeployChanges.To
+                   .SqlDatabase(EFWWTConnectionString)
+                   .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
+                   .LogToConsole();
 
-                var loaderScripts = GetSqlScripts(LoaderFolderName).ToList();
-                var dbLoaderResult = Migrate(EFWWTConnectionString, loaderScripts, true,  true);
+                var upgrader = upgradeEngineBuilder.Build();
 
-                Console.WriteLine($"Db upgrade executed with result {dbUpgradeResult.Successful}");
-                Debug.WriteLine($"Db upgrade executed with result {dbUpgradeResult.Successful}");
-                if (!dbUpgradeResult.Successful)
+                var result = upgrader.PerformUpgrade();
+
+                if (!result.Successful)
                 {
-                    Console.WriteLine($"Db upgrade exception thrown: {dbUpgradeResult.Error}");
-                    Debug.WriteLine($"Db upgrade exception thrown: {dbUpgradeResult.Error}");
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(result.Error);
+                    Console.ResetColor();
+
+#if DEBUG
+                    Console.ReadLine();
+#endif
+                    return -1;
                 }
 
-                Environment.Exit(dbUpgradeResult.Successful ? 0 : 1);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Success!");
+                Console.ResetColor();
+                return 0;
+                //var initScripts = GetSqlScripts(InitStateFolderName).ToList();
+                //var dbInitResult = Migrate(EFWWTConnectionString, initScripts, false, false);
+
+                //var scripts = GetSqlScripts(MigrationFolderName).ToList();
+                //var dbUpgradeResult = Migrate(EFWWTConnectionString, scripts, true, false);
+
+                //var loaderScripts = GetSqlScripts(LoaderFolderName).ToList();
+                //var dbLoaderResult = Migrate(EFWWTConnectionString, loaderScripts, true, true);
+
+                //Console.WriteLine($"Db upgrade executed with result {dbUpgradeResult.Successful}");
+                //Debug.WriteLine($"Db upgrade executed with result {dbUpgradeResult.Successful}");
+                //if (!dbUpgradeResult.Successful)
+                //{
+                //    Console.WriteLine($"Db upgrade exception thrown: {dbUpgradeResult.Error}");
+                //    Debug.WriteLine($"Db upgrade exception thrown: {dbUpgradeResult.Error}");
+                //}
+
+                //Environment.Exit(dbUpgradeResult.Successful ? 0 : 1);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Db upgrade exception thrown: {ex.ToString()}");
                 Debug.WriteLine($"Exception: {ex.ToString()}");
                 Environment.Exit(1);
+
+                return -1;
             }
         }
         private static void WWTEnsureDatabase(string connectionString)
@@ -77,28 +107,25 @@ namespace EF_WWT.DbUp
 
         private static DatabaseUpgradeResult Migrate(string connectionString, List<SqlScript> scripts, bool executeInTransaction, bool ignoreJournal)
         {
-            UpgradeEngineBuilder upgrader; 
+            UpgradeEngineBuilder upgrader;
 
             if (executeInTransaction)
             {
                 upgrader = DeployChanges.To
                     .SqlDatabase(connectionString)
-                    .WithScripts(scripts)
-                    .WithTransactionPerScript()
-                    .LogToTrace()
-                    
+                    .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
                     .LogToConsole()
                     .LogScriptOutput();
             }
-            else{
+            else
+            {
                 upgrader = DeployChanges.To
                     .SqlDatabase(connectionString)
-                    .WithScripts(scripts)
-                    .LogToTrace()
+                    .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
                     .LogToConsole()
                     .LogScriptOutput();
             }
-                
+
             if (ignoreJournal)
                 upgrader.JournalTo(new NullJournal());
 
@@ -116,8 +143,8 @@ namespace EF_WWT.DbUp
         {
             var result = new List<SqlScript>();
             var directory = new DirectoryInfo(path);
-            
-            FileInfo[] files = directory.Exists? directory.GetFiles("*.sql", SearchOption.TopDirectoryOnly): new FileInfo[0];
+
+            FileInfo[] files = directory.Exists ? directory.GetFiles("*.sql", SearchOption.TopDirectoryOnly) : new FileInfo[0];
 
             foreach (var file in files)
             {

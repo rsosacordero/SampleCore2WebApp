@@ -7,59 +7,43 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="InitState\00000-CreateInitState.sql" />
-    <None Remove="InitState\00001-AddressType.sql" />
-    <None Remove="InitState\00002-StateProvince.sql" />
-    <None Remove="InitState\00003-ContactType.sql" />
-    <None Remove="InitState\00004-CountryRegion.sql" />
-    <None Remove="InitState\00005-PhoneNumberType.sql" />
-    <None Remove="InitState\00011-InsertData-Address.sql" />
-    <None Remove="InitState\00012-InsertData-BusinessEntity.sql" />
-    <None Remove="InitState\00013-InsertData-BusinessEntityAddress.sql" />
-    <None Remove="InitState\00015-InsertData-Person.sql" />
-    <None Remove="InitState\00016-InsertData-EmailAddress.sql" />
-    <None Remove="InitState\00017-InsertData-PersonPhone.sql" />
-    <None Remove="InitState\00018-CreateInitState-Constraints1.sql" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="InitState\00000-CreateInitState.sql">
+    <EmbeddedResource Include="Migrations\00000-CreateInitState.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitState\00001-AddressType.sql">
+    <EmbeddedResource Include="Migrations\00001-AddressType.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitState\00002-StateProvince.sql">
+    <EmbeddedResource Include="Migrations\00002-StateProvince.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitState\00003-ContactType.sql">
+    <EmbeddedResource Include="Migrations\00003-ContactType.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitState\00004-CountryRegion.sql">
+    <EmbeddedResource Include="Migrations\00004-CountryRegion.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitState\00005-PhoneNumberType.sql">
+    <EmbeddedResource Include="Migrations\00005-PhoneNumberType.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitState\00011-InsertData-Address.sql">
+    <EmbeddedResource Include="Migrations\00011-InsertData-Address.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitState\00012-InsertData-BusinessEntity.sql">
+    <EmbeddedResource Include="Migrations\00012-InsertData-BusinessEntity.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitState\00013-InsertData-BusinessEntityAddress.sql">
+    <EmbeddedResource Include="Migrations\00013-InsertData-BusinessEntityAddress.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitState\00016-InsertData-EmailAddress.sql">
+    <EmbeddedResource Include="Migrations\00016-InsertData-EmailAddress.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitState\00015-InsertData-Person.sql">
+    <EmbeddedResource Include="Migrations\00015-InsertData-Person.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitState\00017-InsertData-PersonPhone.sql">
+    <EmbeddedResource Include="Migrations\00017-InsertData-PersonPhone.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="InitState\00018-CreateInitState-Constraints1.sql">
+    <EmbeddedResource Include="Migrations\00018-CreateInitState-Constraints1.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
@@ -71,7 +55,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="InitState\00014-InsertData-BusinessEntityContact.sql">
+    <None Update="Migrations\00014-InsertData-BusinessEntityContact.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Migrations\00020-CreateGetContactByNameSProc.sql">

@@ -242,6 +242,18 @@ CREATE TABLE [Person].[PhoneNumberType](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+CREATE TABLE [Person].[Territory](
+	[TerritoryID] [int] IDENTITY(1,1) NOT NULL,
+	[TerritoryCode] [nchar](3) NOT NULL,
+	[Name] [dbo].[Name] NOT NULL,
+	[rowguid] [uniqueidentifier] ROWGUIDCOL  NOT NULL,
+	[ModifiedDate] [datetime] NOT NULL,
+ CONSTRAINT [PK_Territory_TerritoryID] PRIMARY KEY CLUSTERED 
+(
+	[TerritoryID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 /****** Object:  Table [Person].[StateProvince]    Script Date: 11/27/2019 9:18:58 AM ******/
 SET ANSI_NULLS ON
 GO
@@ -264,18 +276,6 @@ CREATE TABLE [Person].[StateProvince](
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [Person].[Territory](
-	[TerritoryID] [int] IDENTITY(1,1) NOT NULL,
-	[TerritoryCode] [nchar](3) NOT NULL,
-	[Name] [dbo].[Name] NOT NULL,
-	[rowguid] [uniqueidentifier] ROWGUIDCOL  NOT NULL,
-	[ModifiedDate] [datetime] NOT NULL,
- CONSTRAINT [PK_Territory_TerritoryID] PRIMARY KEY CLUSTERED 
-(
-	[TerritoryID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]
-GO
 -- ******************************************************
 -- Add Primary Keys
 -- ******************************************************

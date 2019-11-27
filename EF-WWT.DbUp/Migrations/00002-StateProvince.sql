@@ -1,6 +1,22 @@
 ﻿USE [EFWWT]
 GO
 
+SET IDENTITY_INSERT [Person].[Territory] ON
+
+INSERT [Person].[Territory] ([TerritoryID], [TerritoryCode], [Name], [rowguid], [ModifiedDate]) VALUES (1, N'WEU', N'Western US', N'ece38164-84e7-4155-a632-4ce667d2c4fe', CAST(N'2014-02-08T10:17:21.587' AS DateTime))
+INSERT [Person].[Territory] ([TerritoryID], [TerritoryCode], [Name], [rowguid], [ModifiedDate]) VALUES (2, N'EAU', N'Eastern US', N'28d954e9-cf0d-4f0b-aead-0fe644c7a1d2', CAST(N'2014-02-08T10:17:21.587' AS DateTime))
+INSERT [Person].[Territory] ([TerritoryID], [TerritoryCode], [Name], [rowguid], [ModifiedDate]) VALUES (3, N'MWU', N'Midwest US', N'6247833d-1ce5-43fb-be2a-8f4f1ad74051', CAST(N'2014-02-08T10:17:21.587' AS DateTime))
+INSERT [Person].[Territory] ([TerritoryID], [TerritoryCode], [Name], [rowguid], [ModifiedDate]) VALUES (4, N'SWU', N'Southwestern US', N'df4bad11-6a47-4f2a-a150-369c24446a4b', CAST(N'2014-02-08T10:17:21.587' AS DateTime))
+INSERT [Person].[Territory] ([TerritoryID], [TerritoryCode], [Name], [rowguid], [ModifiedDate]) VALUES (5, N'SEU', N'Southeastern US', N'7bdd0e27-3ece-48d2-a189-61e47d4a1d5d', CAST(N'2014-02-08T10:17:21.587' AS DateTime))
+INSERT [Person].[Territory] ([TerritoryID], [TerritoryCode], [Name], [rowguid], [ModifiedDate]) VALUES (6, N'CAN', N'Canada', N'1f4e691d-0b8b-4d52-b79c-329bfd1592d3', CAST(N'2014-02-08T10:17:21.587' AS DateTime))
+INSERT [Person].[Territory] ([TerritoryID], [TerritoryCode], [Name], [rowguid], [ModifiedDate]) VALUES (7, N'FRA', N'France', N'65ed27bd-de4b-4cc3-b817-939a29e9f04a', CAST(N'2014-02-08T10:17:21.587' AS DateTime))
+INSERT [Person].[Territory] ([TerritoryID], [TerritoryCode], [Name], [rowguid], [ModifiedDate]) VALUES (8, N'DEU', N'Germany', N'607a6bee-ae36-4a13-9c26-12414e992c3b', CAST(N'2014-02-08T10:17:21.587' AS DateTime))
+INSERT [Person].[Territory] ([TerritoryID], [TerritoryCode], [Name], [rowguid], [ModifiedDate]) VALUES (9, N'AUS', N'Australia', N'9cb8a3ad-9774-48b2-8492-25d4fdee9a0b', CAST(N'2014-02-08T10:17:21.587' AS DateTime))
+INSERT [Person].[Territory] ([TerritoryID], [TerritoryCode], [Name], [rowguid], [ModifiedDate]) VALUES (10, N'GBR', N'Great Britain', N'070468bc-ef6b-4347-9a11-e681597905be', CAST(N'2014-02-08T10:17:21.587' AS DateTime))
+
+SET IDENTITY_INSERT [Person].[Territory] OFF
+GO
+
 SET IDENTITY_INSERT [Person].[StateProvince] ON 
 
 INSERT [Person].[StateProvince] ([StateProvinceID], [StateProvinceCode], [CountryRegionCode], [IsOnlyStateProvinceFlag], [Name], [TerritoryID], [rowguid], [ModifiedDate]) VALUES (1, N'AB ', N'CA', 0, N'Alberta', 6, N'298c2880-ab1c-4982-a5ad-a36eb4ba0d34', CAST(N'2014-02-08T10:17:21.587' AS DateTime))

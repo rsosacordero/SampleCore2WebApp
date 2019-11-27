@@ -256,6 +256,7 @@ CREATE TABLE [Person].[StateProvince](
 	[TerritoryID] [int] NOT NULL,
 	[rowguid] [uniqueidentifier] ROWGUIDCOL  NOT NULL,
 	[ModifiedDate] [datetime] NOT NULL,
+ CONSTRAINT [FK_StateProvince_Territory_TerritoryID] FOREIGN KEY (TerritoryID) REFERENCES [Person].[Territory](TerritoryID),
  CONSTRAINT [PK_StateProvince_StateProvinceID] PRIMARY KEY CLUSTERED 
 (
 	[StateProvinceID] ASC
@@ -263,6 +264,18 @@ CREATE TABLE [Person].[StateProvince](
 ) ON [PRIMARY]
 GO
 
+CREATE TABLE [Person].[Territory](
+	[TerritoryID] [int] IDENTITY(1,1) NOT NULL,
+	[TerritoryCode] [nchar](3) NOT NULL,
+	[Name] [dbo].[Name] NOT NULL,
+	[rowguid] [uniqueidentifier] ROWGUIDCOL  NOT NULL,
+	[ModifiedDate] [datetime] NOT NULL,
+ CONSTRAINT [PK_StateProvince_StateProvinceID] PRIMARY KEY CLUSTERED 
+(
+	[StateProvinceID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
 -- ******************************************************
 -- Add Primary Keys
 -- ******************************************************

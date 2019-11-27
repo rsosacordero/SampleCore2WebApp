@@ -7,54 +7,74 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="InitState\00000-CreateInitState.sql" />
+    <None Remove="InitState\00001-AddressType.sql" />
+    <None Remove="InitState\00002-StateProvince.sql" />
+    <None Remove="InitState\00003-ContactType.sql" />
+    <None Remove="InitState\00004-CountryRegion.sql" />
+    <None Remove="InitState\00005-PhoneNumberType.sql" />
+    <None Remove="InitState\00011-CreateInitState-Data1.sql" />
+    <None Remove="InitState\00012-CreateInitState-Data2.sql" />
+    <None Remove="InitState\00013-CreateInitState-Data3.sql" />
+    <None Remove="InitState\00014-CreateInitState-Data4.sql" />
+    <None Remove="InitState\00015-CreateInitState-Data5.sql" />
+    <None Remove="InitState\00016-CreateInitState-Data6.sql" />
+    <None Remove="InitState\00017-CreateInitState-Data7.sql" />
+    <None Remove="InitState\00018-CreateInitState-Constraints1.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="InitState\00000-CreateInitState.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitState\00001-AddressType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitState\00002-StateProvince.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitState\00003-ContactType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitState\00004-CountryRegion.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitState\00005-PhoneNumberType.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitState\00011-CreateInitState-Data1.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitState\00012-CreateInitState-Data2.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitState\00013-CreateInitState-Data3.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitState\00014-CreateInitState-Data4.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitState\00015-CreateInitState-Data5.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitState\00016-CreateInitState-Data6.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitState\00017-CreateInitState-Data7.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="InitState\00018-CreateInitState-Constraints1.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="dbup-core" Version="4.3.0" />
     <PackageReference Include="dbup-sqlserver" Version="4.3.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="InitState\00001-AddressType.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="InitState\00003-ContactType.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="InitState\00004-CountryRegion.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="InitState\00005-PhoneNumberType.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="InitState\00000-CreateInitState.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="InitState\00011-CreateInitState-Data1.sql">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="InitState\00012-CreateInitState-Data2.sql">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="InitState\00013-CreateInitState-Data3.sql">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="InitState\00014-CreateInitState-Data4.sql">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="InitState\00015-CreateInitState-Data5.sql">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="InitState\00016-CreateInitState-Data6.sql">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="InitState\00017-CreateInitState-Data7.sql">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="InitState\00002-StateProvince.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="InitState\00018-CreateInitState-Constraints1.sql">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
     <None Update="Migrations\00020-CreateGetContactByNameSProc.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

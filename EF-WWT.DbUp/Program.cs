@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using DbUp;
 using DbUp.Builder;
 using DbUp.Engine;
@@ -12,24 +13,21 @@ using DbUp.Helpers;
 
 namespace EF_WWT.DbUp
 {
-    class Program
+    public class Program
     {
         public static string EFWWTConnectionString => ConfigurationManager.ConnectionStrings["EFWWTConnectionString"].ConnectionString;
 
-        private static string InitStateFolderName => "InitState";
         private static string MigrationFolderName => "Migrations";
         private static string LoaderFolderName => "Loaders";
 
 
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             try
             {
-                EnsureDatabase.For.SqlDatabase(EFWWTConnectionString);
+                WWTEnsureDatabase(EFWWTConnectionString); 
 
-                var initScripts = GetSqlScripts(InitStateFolderName).ToList();
-                var dbInitResult = Migrate(EFWWTConnectionString, initScripts, false, false);
 
                 var scripts = GetSqlScripts(MigrationFolderName).ToList();
                 var dbUpgradeResult = Migrate(EFWWTConnectionString, scripts, true, false);
@@ -54,6 +52,28 @@ namespace EF_WWT.DbUp
                 Environment.Exit(1);
             }
         }
+        private static void WWTEnsureDatabase(string connectionString)
+        {
+            string databaseName = null;
+            
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connectionString);
+            databaseName = builder.InitialCatalog; 
+            builder.InitialCatalog = "master";
+
+            using (var connection = new SqlConnection(builder.ConnectionString))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = $@"If not Exists(SELECT name, database_id FROM sys.databases where name = '{databaseName}')
+                                        BEGIN 
+                                            CREATE DATABASE {databaseName};
+                                        END";
+                command.CommandTimeout = 120;
+                command.ExecuteNonQuery();
+                connection.Close();
+            }
+        }
+
 
         private static DatabaseUpgradeResult Migrate(string connectionString, List<SqlScript> scripts, bool executeInTransaction, bool ignoreJournal)
         {

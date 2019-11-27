@@ -262,3 +262,246 @@ CREATE TABLE [Person].[StateProvince](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+
+-- ******************************************************
+-- Add Primary Keys
+-- ******************************************************
+--PRINT '';
+--PRINT '*** Adding Primary Keys';
+--GO
+
+--SET QUOTED_IDENTIFIER ON;
+
+--ALTER TABLE [Person].[Address] WITH CHECK ADD 
+--    CONSTRAINT [PK_Address_AddressID] PRIMARY KEY CLUSTERED 
+--    (
+--        [AddressID]
+--    )  ON [PRIMARY];
+--GO
+
+--ALTER TABLE [Person].[AddressType] WITH CHECK ADD 
+--    CONSTRAINT [PK_AddressType_AddressTypeID] PRIMARY KEY CLUSTERED 
+--    (
+--        [AddressTypeID]
+--    )  ON [PRIMARY];
+--GO
+
+
+--ALTER TABLE [Person].[BusinessEntity] WITH CHECK ADD 
+--    CONSTRAINT [PK_BusinessEntity_BusinessEntityID] PRIMARY KEY CLUSTERED 
+--    (
+--        [BusinessEntityID]
+--    )  ON [PRIMARY];
+--GO
+
+--ALTER TABLE [Person].[BusinessEntityAddress] WITH CHECK ADD 
+--    CONSTRAINT [PK_BusinessEntityAddress_BusinessEntityID_AddressID_AddressTypeID] PRIMARY KEY CLUSTERED 
+--    (
+--        [BusinessEntityID],
+--		[AddressID],
+--		[AddressTypeID]
+--    )  ON [PRIMARY];
+--GO
+
+--ALTER TABLE [Person].[BusinessEntityContact] WITH CHECK ADD 
+--    CONSTRAINT [PK_BusinessEntityContact_BusinessEntityID_PersonID_ContactTypeID] PRIMARY KEY CLUSTERED 
+--    (
+--        [BusinessEntityID],
+--		[PersonID],
+--		[ContactTypeID]
+--    )  ON [PRIMARY];
+--GO
+
+--ALTER TABLE [Person].[ContactType] WITH CHECK ADD 
+--    CONSTRAINT [PK_ContactType_ContactTypeID] PRIMARY KEY CLUSTERED 
+--    (
+--        [ContactTypeID]
+--    )  ON [PRIMARY];
+--GO
+
+
+--ALTER TABLE [Person].[CountryRegion] WITH CHECK ADD 
+--    CONSTRAINT [PK_CountryRegion_CountryRegionCode] PRIMARY KEY CLUSTERED 
+--    (
+--        [CountryRegionCode]
+--    )  ON [PRIMARY];
+--GO
+
+
+--ALTER TABLE [Person].[EmailAddress] WITH CHECK ADD 
+--    CONSTRAINT [PK_EmailAddress_BusinessEntityID_EmailAddressID] PRIMARY KEY CLUSTERED 
+--    (
+--        [BusinessEntityID],
+--		[EmailAddressID]
+--    )  ON [PRIMARY];
+--GO
+
+
+--ALTER TABLE [Person].[Password] WITH CHECK ADD 
+--    CONSTRAINT [PK_Password_BusinessEntityID] PRIMARY KEY CLUSTERED 
+--    (
+--        [BusinessEntityID]
+--    )  ON [PRIMARY];
+--GO
+
+--ALTER TABLE [Person].[Person] WITH CHECK ADD 
+--    CONSTRAINT [PK_Person_BusinessEntityID] PRIMARY KEY CLUSTERED 
+--    (
+--        [BusinessEntityID]
+--    )  ON [PRIMARY];
+--GO
+
+
+--ALTER TABLE [Person].[PersonPhone] WITH CHECK ADD 
+--    CONSTRAINT [PK_PersonPhone_BusinessEntityID_PhoneNumber_PhoneNumberTypeID] PRIMARY KEY CLUSTERED 
+--    (
+--        [BusinessEntityID],
+--        [PhoneNumber],
+--        [PhoneNumberTypeID]
+--    )  ON [PRIMARY];
+--GO
+
+--ALTER TABLE [Person].[PhoneNumberType] WITH CHECK ADD 
+--    CONSTRAINT [PK_PhoneNumberType_PhoneNumberTypeID] PRIMARY KEY CLUSTERED 
+--    (
+--        [PhoneNumberTypeID]
+--    )  ON [PRIMARY];
+--GO
+
+
+--ALTER TABLE [Person].[StateProvince] WITH CHECK ADD 
+--    CONSTRAINT [PK_StateProvince_StateProvinceID] PRIMARY KEY CLUSTERED 
+--    (
+--        [StateProvinceID]
+--    )  ON [PRIMARY];
+--GO
+
+
+PRINT '';
+PRINT '*** Adding Indexes';
+GO
+
+CREATE UNIQUE INDEX [AK_Address_rowguid] ON [Person].[Address]([rowguid]) ON [PRIMARY];
+CREATE UNIQUE INDEX [IX_Address_AddressLine1_AddressLine2_City_StateProvinceID_PostalCode] ON [Person].[Address] ([AddressLine1], [AddressLine2], [City], [StateProvinceID], [PostalCode]) ON [PRIMARY];
+CREATE INDEX [IX_Address_StateProvinceID] ON [Person].[Address]([StateProvinceID]) ON [PRIMARY];
+GO
+
+CREATE UNIQUE INDEX [AK_AddressType_rowguid] ON [Person].[AddressType]([rowguid]) ON [PRIMARY];
+CREATE UNIQUE INDEX [AK_AddressType_Name] ON [Person].[AddressType]([Name]) ON [PRIMARY];
+GO
+
+CREATE UNIQUE INDEX [AK_BusinessEntity_rowguid] ON [Person].[BusinessEntity]([rowguid]) ON [PRIMARY];
+GO
+
+CREATE UNIQUE INDEX [AK_ContactType_Name] ON [Person].[ContactType]([Name]) ON [PRIMARY];
+GO
+
+CREATE UNIQUE INDEX [AK_CountryRegion_Name] ON [Person].[CountryRegion]([Name]) ON [PRIMARY];
+GO
+
+CREATE INDEX [IX_EmailAddress_EmailAddress] ON [Person].[EmailAddress]([EmailAddress]) ON [PRIMARY];
+GO
+
+CREATE INDEX [IX_Person_LastName_FirstName_MiddleName] ON [Person].[Person] ([LastName], [FirstName], [MiddleName]) ON [PRIMARY];
+CREATE UNIQUE INDEX [AK_Person_rowguid] ON [Person].[Person]([rowguid]) ON [PRIMARY];
+
+CREATE INDEX [IX_PersonPhone_PhoneNumber] on [Person].[PersonPhone] ([PhoneNumber]) ON [PRIMARY];
+
+CREATE UNIQUE INDEX [AK_BusinessEntityAddress_rowguid] ON [Person].[BusinessEntityAddress]([rowguid]) ON [PRIMARY];
+CREATE INDEX [IX_BusinessEntityAddress_AddressID] ON [Person].[BusinessEntityAddress]([AddressID]) ON [PRIMARY];
+CREATE INDEX [IX_BusinessEntityAddress_AddressTypeID] ON [Person].[BusinessEntityAddress]([AddressTypeID]) ON [PRIMARY];
+GO
+
+CREATE UNIQUE INDEX [AK_StateProvince_Name] ON [Person].[StateProvince]([Name]) ON [PRIMARY];
+CREATE UNIQUE INDEX [AK_StateProvince_StateProvinceCode_CountryRegionCode] ON [Person].[StateProvince]([StateProvinceCode], [CountryRegionCode]) ON [PRIMARY];
+CREATE UNIQUE INDEX [AK_StateProvince_rowguid] ON [Person].[StateProvince]([rowguid]) ON [PRIMARY];
+GO
+
+
+PRINT '';
+PRINT '*** Creating Foreign Key Constraints';
+GO
+
+ALTER TABLE [Person].[Address] ADD 
+    CONSTRAINT [FK_Address_StateProvince_StateProvinceID] FOREIGN KEY 
+    (
+        [StateProvinceID]
+    ) REFERENCES [Person].[StateProvince](
+        [StateProvinceID]
+    );
+GO
+
+ALTER TABLE [Person].[BusinessEntityAddress] ADD 
+    CONSTRAINT [FK_BusinessEntityAddress_Address_AddressID] FOREIGN KEY 
+    (
+        [AddressID]
+    ) REFERENCES [Person].[Address](
+        [AddressID]
+    ),
+    CONSTRAINT [FK_BusinessEntityAddress_AddressType_AddressTypeID] FOREIGN KEY 
+    (
+        [AddressTypeID]
+    ) REFERENCES [Person].[AddressType](
+        [AddressTypeID]
+    ),
+    CONSTRAINT [FK_BusinessEntityAddress_BusinessEntity_BusinessEntityID] FOREIGN KEY 
+    (
+        [BusinessEntityID]
+    ) REFERENCES [Person].[BusinessEntity](
+        [BusinessEntityID]
+    );
+GO
+
+ALTER TABLE [Person].[BusinessEntityContact] ADD
+    CONSTRAINT [FK_BusinessEntityContact_Person_PersonID] FOREIGN KEY 
+    (
+        [PersonID]
+    ) REFERENCES [Person].[Person](
+        [BusinessEntityID]
+    ),
+    CONSTRAINT [FK_BusinessEntityContact_ContactType_ContactTypeID] FOREIGN KEY 
+    (
+        [ContactTypeID]
+    ) REFERENCES [Person].[ContactType](
+        [ContactTypeID]
+    ),
+    CONSTRAINT [FK_BusinessEntityContact_BusinessEntity_BusinessEntityID] FOREIGN KEY 
+    (
+        [BusinessEntityID]
+    ) REFERENCES [Person].[BusinessEntity](
+        [BusinessEntityID]
+    );
+GO
+
+ALTER TABLE [Person].[EmailAddress] ADD 
+    CONSTRAINT [FK_EmailAddress_Person_BusinessEntityID] FOREIGN KEY 
+    (
+        [BusinessEntityID]
+    ) REFERENCES [Person].[Person](
+        [BusinessEntityID]
+    );
+GO
+
+ALTER TABLE [Person].[Person] ADD 
+    CONSTRAINT [FK_Person_BusinessEntity_BusinessEntityID] FOREIGN KEY 
+    (
+        [BusinessEntityID]
+    ) REFERENCES [Person].[BusinessEntity](
+        [BusinessEntityID]
+    );
+GO
+
+ALTER TABLE [Person].[PersonPhone] ADD 
+    CONSTRAINT [FK_PersonPhone_Person_BusinessEntityID] FOREIGN KEY 
+    (
+        [BusinessEntityID]
+    ) REFERENCES [Person].[Person](
+        [BusinessEntityID]
+    ),
+ CONSTRAINT [FK_PersonPhone_PhoneNumberType_PhoneNumberTypeID] FOREIGN KEY 
+    (
+        [PhoneNumberTypeID]
+    ) REFERENCES [Person].[PhoneNumberType](
+        [PhoneNumberTypeID]
+    );
+GO

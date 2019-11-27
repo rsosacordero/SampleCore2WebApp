@@ -270,9 +270,9 @@ CREATE TABLE [Person].[Territory](
 	[Name] [dbo].[Name] NOT NULL,
 	[rowguid] [uniqueidentifier] ROWGUIDCOL  NOT NULL,
 	[ModifiedDate] [datetime] NOT NULL,
- CONSTRAINT [PK_StateProvince_StateProvinceID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Territory_TerritoryID] PRIMARY KEY CLUSTERED 
 (
-	[StateProvinceID] ASC
+	[TerritoryID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO

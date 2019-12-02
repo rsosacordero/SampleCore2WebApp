@@ -12,6 +12,8 @@ using EF_WWT.Mappers;
 using System.Collections.Generic;
 using EF_WWT.Domain;
 using EF_WWT.Filters;
+using Correlate.DependencyInjection;
+using Correlate.AspNetCore;
 
 namespace EF_WWT
 {
@@ -33,7 +35,18 @@ namespace EF_WWT
                 .AddMvc(opts => opts.Filters.Add<WWTExceptionFilter>())
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-                
+
+
+            //Add correlation ID 
+            services.AddCorrelate(options =>
+            {
+                options.RequestHeaders = new[]
+                {
+                  "X-Correlation-ID",
+                  "My-Correlation-ID"
+                };
+                options.IncludeInResponse = true;
+            });
 
             //Add EF core
             services.AddDbContext<EFWWTContext>((opts) => opts.UseSqlServer(_configuration.EFWWTConnectionString),  ServiceLifetime.Transient);
@@ -64,6 +77,7 @@ namespace EF_WWT
                 app.UseHsts();
             }
 
+            app.UseCorrelate();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

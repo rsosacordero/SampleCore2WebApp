@@ -23,5 +23,12 @@ namespace EF_WWT.Controllers
              return Ok(result);
         }
 
+        [HttpGet("Email")]
+        public async Task<IActionResult> GetEmailByNameAsync([FromQuery] GetEmailAddressByNameQuery query)
+        {
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
     }
 }

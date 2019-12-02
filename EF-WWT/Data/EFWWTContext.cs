@@ -29,6 +29,7 @@ namespace EF_WWT.Data
         public virtual DbSet<PhoneNumberType> PhoneNumberType { get; set; }
         public virtual DbSet<StateProvince> StateProvince { get; set; }
         public virtual DbQuery<GetContactByName> GetContactByName { get; set; }
+        public virtual DbQuery<GetEmailAddressByName> GetEmailAddressByNames{ get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

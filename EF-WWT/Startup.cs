@@ -47,6 +47,7 @@ namespace EF_WWT
 
             //register all other mappers
             services.AddTransient<IMapper<List<GetContactByName>, List<Contact>>, ContactProfileMapper>();
+            services.AddTransient<IMapper<List<GetEmailAddressByName>, List<Contact>>, EmailProfileMapper>();
             services.AddTransient<IWWTExceptionHandler, WWTExceptionHandler>();
             
         }

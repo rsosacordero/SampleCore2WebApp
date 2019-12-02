@@ -20,6 +20,8 @@ namespace EF_WWT.Filters
             context.HttpContext.Response.StatusCode = (int)response.StatusCode; 
 
             context.Result = new JsonResult(new { Message = response.Message }); 
+            
+            
         }
     }
 }

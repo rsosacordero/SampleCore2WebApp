@@ -23,9 +23,9 @@ namespace EF_WWT.Tests.Unit.CQRS
         }
 
         [Fact]
-        public async Task Handler_PersonResourceDoesntExist_RNFExceptionThrown()
+        public void Handler_PersonResourceDoesntExist_RNFExceptionThrown()
         {
-            var request = new SavePersonEmailCommand() { PersonIdentifier = Guid.NewGuid(), EmailAddress = "123@123.com" };           
+            var request = new SavePersonEmailCommand() { PersonIdentifier = Guid.NewGuid(), EmailAddress = "123@123.com" };
             Func<Task> func = async () => await _handler.TestHandle(request, new System.Threading.CancellationToken());
             func.Should().ThrowExactly<ResourceNotFoundException>();
         }

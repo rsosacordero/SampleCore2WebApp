@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using EF_WWT.Data;
+﻿using EF_WWT.Data;
 using EF_WWT.Domain;
 using EF_WWT.Mappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EF_WWT.CQRS.Queries
 {
@@ -31,7 +31,7 @@ namespace EF_WWT.CQRS.Queries
         {
             var result = await _context.Query<GetEmailAddressByName>().FromSql("EXEC dbo.GetEmailAddressByName @FirstName={0}, @LastName={1}", request.FirstName, request.LastName).ToListAsync();
 
-            var mappedResult = _mapper.MapDestination(result); 
+            var mappedResult = _mapper.MapDestination(result);
 
             return mappedResult;
         }

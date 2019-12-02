@@ -11,7 +11,7 @@ namespace EF_WWT.Exceptions
         public ApiError(string message, string detail, HttpStatusCode statusCode)
         {
             Message = message;
-            Detail = detail; 
+            Detail = detail;
             StatusCode = statusCode;
         }
     }

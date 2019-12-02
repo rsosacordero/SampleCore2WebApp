@@ -1,11 +1,7 @@
 ﻿using EF_WWT.CQRS.Commands;
 using EF_WWT.Data;
-using EF_WWT.Exceptions;
-using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 

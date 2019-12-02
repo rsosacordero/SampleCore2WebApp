@@ -1,11 +1,8 @@
-﻿using EF_WWT.Filters;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
-using System.Linq;
+﻿using EF_WWT.Exceptions;
+using EF_WWT.Filters;
 using FluentAssertions;
-using EF_WWT.Exceptions;
+using System;
+using Xunit;
 
 namespace EF_WWT.Tests.Unit
 {
@@ -31,7 +28,7 @@ namespace EF_WWT.Tests.Unit
         {
             var result = _handler.HandleException(new Exception("Some message"));
             result.Should().NotBeNull();
-            result.StatusCode.Should().Be(System.Net.HttpStatusCode.InternalServerError); 
+            result.StatusCode.Should().Be(System.Net.HttpStatusCode.InternalServerError);
         }
 
         [Fact]

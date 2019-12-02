@@ -10,7 +10,7 @@ namespace EF_WWT.Mappers
     {
         public List<Contact> MapDestination(List<GetContactByName> destination)
         {
-            var result = new List<Contact>(); 
+            var result = new List<Contact>();
             foreach (var item in destination ?? new List<GetContactByName>())
             {
                 var resultItem = result.FirstOrDefault(c => c.Identifier == item.Identifier);
@@ -24,7 +24,7 @@ namespace EF_WWT.Mappers
                     resultItem.Addresses.Add(item.Address);
                 }
             }
-            return result; 
+            return result;
         }
 
         public List<GetContactByName> MapSource(List<Contact> source)

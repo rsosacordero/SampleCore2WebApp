@@ -7,7 +7,7 @@ namespace EF_WWT.Domain
     {
         public Contact(Guid identifier, string firstName, string lastName, List<string> emailAddresses, List<string> addresses)
         {
-            Identifier = identifier; 
+            Identifier = identifier;
             FirstName = firstName;
             LastName = lastName;
             EmailAddresses = emailAddresses;

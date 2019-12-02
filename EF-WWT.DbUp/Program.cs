@@ -1,15 +1,14 @@
-﻿using System;
+﻿using DbUp;
+using DbUp.Builder;
+using DbUp.Engine;
+using DbUp.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
-using DbUp;
-using DbUp.Builder;
-using DbUp.Engine;
-using DbUp.Helpers;
 
 namespace EF_WWT.DbUp
 {

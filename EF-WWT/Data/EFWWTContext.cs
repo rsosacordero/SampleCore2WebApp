@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace EF_WWT.Data
 {
@@ -30,7 +28,7 @@ namespace EF_WWT.Data
         public virtual DbSet<SchemaVersions> SchemaVersions { get; set; }
         public virtual DbSet<StateProvince> StateProvince { get; set; }
         public virtual DbSet<Territory> Territory { get; set; }
-        
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

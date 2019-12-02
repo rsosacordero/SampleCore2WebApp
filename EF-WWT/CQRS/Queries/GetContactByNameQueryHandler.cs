@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using EF_WWT.Data;
+﻿using EF_WWT.Data;
 using EF_WWT.Domain;
 using EF_WWT.Exceptions;
 using EF_WWT.Mappers;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EF_WWT.CQRS.Queries
 {
@@ -39,7 +39,7 @@ namespace EF_WWT.CQRS.Queries
                 throw new ResourceNotFoundException($"Query for {nameof(GetContactByNameQuery)} returned no results: {JsonConvert.SerializeObject(request, Formatting.Indented)}");
             }
 
-            var mappedResult = _mapper.MapDestination(result); 
+            var mappedResult = _mapper.MapDestination(result);
 
             return mappedResult;
         }

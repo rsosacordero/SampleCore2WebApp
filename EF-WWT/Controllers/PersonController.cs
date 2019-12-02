@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using EF_WWT.CQRS.Commands;
+﻿using EF_WWT.CQRS.Commands;
 using EF_WWT.CQRS.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace EF_WWT.Controllers
 {
@@ -20,8 +20,8 @@ namespace EF_WWT.Controllers
         [HttpGet]
         public async Task<IActionResult> GetContactByNameAsync([FromQuery] GetContactByNameQuery query)
         {
-             var result = await _mediator.Send(query);
-             return Ok(result);
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
         [HttpGet("Email")]

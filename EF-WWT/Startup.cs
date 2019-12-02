@@ -1,19 +1,19 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using MediatR;
-using System.Reflection;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Correlate.AspNetCore;
+using Correlate.DependencyInjection;
 using EF_WWT.Data;
-using EF_WWT.Mappers;
-using System.Collections.Generic;
 using EF_WWT.Domain;
 using EF_WWT.Filters;
-using Correlate.DependencyInjection;
-using Correlate.AspNetCore;
+using EF_WWT.Mappers;
+using MediatR;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace EF_WWT
 {
@@ -26,7 +26,7 @@ namespace EF_WWT
             _configuration = new ApiConfig(env.EnvironmentName);
         }
 
-        public IConfiguration Configuration { get; }       
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -52,7 +52,7 @@ namespace EF_WWT
             });
 
             //Add EF core
-            services.AddDbContext<EFWWTContext>((opts) => opts.UseSqlServer(_configuration.EFWWTConnectionString),  ServiceLifetime.Transient);
+            services.AddDbContext<EFWWTContext>((opts) => opts.UseSqlServer(_configuration.EFWWTConnectionString), ServiceLifetime.Transient);
 
             //register Automapper + Mediatr + ... 
             var currentAssembly = typeof(Startup).GetTypeInfo().Assembly;
@@ -65,7 +65,7 @@ namespace EF_WWT
             services.AddTransient<IMapper<List<GetContactByName>, List<Contact>>, ContactProfileMapper>();
             services.AddTransient<IMapper<List<GetEmailAddressByName>, List<Contact>>, EmailProfileMapper>();
             services.AddTransient<IWWTExceptionHandler, WWTExceptionHandler>();
-            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

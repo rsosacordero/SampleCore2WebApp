@@ -11,18 +11,18 @@ namespace EF_WWT.Filters
     {
         public ApiError HandleException(Exception exc)
         {
-            ApiError errorResponse = null; 
+            ApiError errorResponse = null;
             if (exc is ResourceNotFoundException)
             {
                 var rnfException = exc as ResourceNotFoundException;
 
-                errorResponse = new ApiError(exc.Message, exc.InnerException?.StackTrace, System.Net.HttpStatusCode.NotFound); 
+                errorResponse = new ApiError(exc.Message, exc.InnerException?.StackTrace, System.Net.HttpStatusCode.NotFound);
             }
             else
             {
                 errorResponse = new ApiError("An unhandled error occurred.", null, System.Net.HttpStatusCode.InternalServerError);
             }
-            return errorResponse; 
+            return errorResponse;
         }
     }
 }

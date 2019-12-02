@@ -5,11 +5,11 @@ namespace EF_WWT.Filters
 {
     public class WWTExceptionFilter : IExceptionFilter
     {
-        private readonly IWWTExceptionHandler _handler; 
+        private readonly IWWTExceptionHandler _handler;
         public WWTExceptionFilter(IWWTExceptionHandler handler)
         {
             _handler = handler;
-        }        
+        }
 
         public void OnException(ExceptionContext context)
         {
@@ -17,11 +17,11 @@ namespace EF_WWT.Filters
 
             context.ExceptionHandled = true;
 
-            context.HttpContext.Response.StatusCode = (int)response.StatusCode; 
+            context.HttpContext.Response.StatusCode = (int)response.StatusCode;
 
-            context.Result = new JsonResult(new { Message = response.Message }); 
-            
-            
+            context.Result = new JsonResult(new { Message = response.Message });
+
+
         }
     }
 }

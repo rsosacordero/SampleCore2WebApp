@@ -1,20 +1,20 @@
 using EF_WWT.Data;
 using EF_WWT.Mappers;
-using System.Collections.Generic;
-using Xunit;
-using System.Linq;
 using FluentAssertions;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using Xunit;
 
 namespace EF_WWT.Tests.Unit
 {
     public class ContactProfileMapperTests
     {
-        private ContactProfileMapper _mapper; 
+        private ContactProfileMapper _mapper;
 
         public ContactProfileMapperTests()
         {
-            _mapper = new ContactProfileMapper(); 
+            _mapper = new ContactProfileMapper();
         }
 
         [Fact]
@@ -24,7 +24,7 @@ namespace EF_WWT.Tests.Unit
             var identifier2 = Guid.NewGuid();
             var identifier3 = Guid.NewGuid();
 
-            var listData = new List<GetContactByName>() { 
+            var listData = new List<GetContactByName>() {
                 new GetContactByName(){ Identifier = identifier1, Address ="Address 1", FirstName = "FN1", LastName = "LN" },
                 new GetContactByName(){ Identifier = identifier1, Address ="Address 2", FirstName = "FN1", LastName = "LN" },
                 new GetContactByName(){ Identifier = identifier2, Address ="Address 543", FirstName = "FN4", LastName = "LN5" },

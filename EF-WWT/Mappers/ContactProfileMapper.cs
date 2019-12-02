@@ -16,7 +16,7 @@ namespace EF_WWT.Mappers
                 var resultItem = result.FirstOrDefault(c => c.Identifier == item.Identifier);
                 if (resultItem == null)
                 {
-                    var newItem = new Contact(item.Identifier, item.FirstName, item.LastName, new List<string> (), new List<string>() { item.Address });
+                    var newItem = new Contact(item.Identifier, item.FirstName, item.LastName, null, new List<string>() { item.Address });
                     result.Add(newItem);
                 }
                 else

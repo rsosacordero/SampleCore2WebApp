@@ -21,14 +21,14 @@ namespace EF_WWT.CQRS.Commands
     public class SavePersonEmailCommandHandler : AsyncRequestHandler<SavePersonEmailCommand>
     {
         private readonly EFWWTContext _context; 
-        public SavePersonEmailCommandHandler(EF_WWT.Data.EFWWTContext context)
+        public SavePersonEmailCommandHandler(EFWWTContext context)
         {
             _context = context; 
         }
 
         protected async override Task Handle(SavePersonEmailCommand request, CancellationToken cancellationToken)
         {
-            var person = _context.Person
+            var person = _context.Person.AsNoTracking()
                 .Include(c => c.EmailAddress)
                 .FirstOrDefault(c => c.Rowguid == request.PersonIdentifier);
 
@@ -54,6 +54,11 @@ namespace EF_WWT.CQRS.Commands
             }
 
             await _context.SaveChangesAsync(); 
+        }
+
+        public async Task TestHandle(SavePersonEmailCommand request, CancellationToken cancellationToken)
+        {
+            await this.Handle(request, cancellationToken);
         }
     }
 }

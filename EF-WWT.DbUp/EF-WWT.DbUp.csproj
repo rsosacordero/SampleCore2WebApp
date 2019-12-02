@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Migrations\00020-CreateGetContactByNameSProc.sql" />
+    <None Remove="Migrations\00030-AlterGetContactByNameSProc.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="Migrations\00000-CreateInitState.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -46,6 +51,12 @@
     <EmbeddedResource Include="Migrations\00018-CreateInitState-Constraints1.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\00020-CreateGetContactByNameSProc.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\00030-AlterGetContactByNameSProc.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -57,12 +68,6 @@
   <ItemGroup>
     <None Update="Migrations\00014-InsertData-BusinessEntityContact.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="Migrations\00020-CreateGetContactByNameSProc.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Migrations\00030-AlterGetContactByNameSProc.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

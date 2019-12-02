@@ -5,7 +5,6 @@ using System.Data.SqlClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading;
 using DbUp;
 using DbUp.Builder;
@@ -21,73 +20,44 @@ namespace EF_WWT.DbUp
         private static string MigrationFolderName => "Migrations";
         private static string LoaderFolderName => "Loaders";
 
-        static int Main(string[] args)
+
+
+        public static void Main(string[] args)
         {
             try
             {
-                //DropDatabase.For.SqlDatabase(EFWWTConnectionString);
-                EnsureDatabase.For.SqlDatabase(EFWWTConnectionString);
+                WWTEnsureDatabase(EFWWTConnectionString);
 
 
-                var upgradeEngineBuilder = DeployChanges.To
-                   .SqlDatabase(EFWWTConnectionString)
-                   .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
-                   .LogToConsole();
+                var scripts = GetSqlScripts(MigrationFolderName).ToList();
+                var dbUpgradeResult = Migrate(EFWWTConnectionString, scripts, true, false);
 
-                var upgrader = upgradeEngineBuilder.Build();
+                var loaderScripts = GetSqlScripts(LoaderFolderName).ToList();
+                var dbLoaderResult = Migrate(EFWWTConnectionString, loaderScripts, true, true);
 
-                var result = upgrader.PerformUpgrade();
-
-                if (!result.Successful)
+                Console.WriteLine($"Db upgrade executed with result {dbUpgradeResult.Successful}");
+                Debug.WriteLine($"Db upgrade executed with result {dbUpgradeResult.Successful}");
+                if (!dbUpgradeResult.Successful)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(result.Error);
-                    Console.ResetColor();
-
-#if DEBUG
-                    Console.ReadLine();
-#endif
-                    return -1;
+                    Console.WriteLine($"Db upgrade exception thrown: {dbUpgradeResult.Error}");
+                    Debug.WriteLine($"Db upgrade exception thrown: {dbUpgradeResult.Error}");
                 }
 
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Success!");
-                Console.ResetColor();
-                return 0;
-                //var initScripts = GetSqlScripts(InitStateFolderName).ToList();
-                //var dbInitResult = Migrate(EFWWTConnectionString, initScripts, false, false);
-
-                //var scripts = GetSqlScripts(MigrationFolderName).ToList();
-                //var dbUpgradeResult = Migrate(EFWWTConnectionString, scripts, true, false);
-
-                //var loaderScripts = GetSqlScripts(LoaderFolderName).ToList();
-                //var dbLoaderResult = Migrate(EFWWTConnectionString, loaderScripts, true, true);
-
-                //Console.WriteLine($"Db upgrade executed with result {dbUpgradeResult.Successful}");
-                //Debug.WriteLine($"Db upgrade executed with result {dbUpgradeResult.Successful}");
-                //if (!dbUpgradeResult.Successful)
-                //{
-                //    Console.WriteLine($"Db upgrade exception thrown: {dbUpgradeResult.Error}");
-                //    Debug.WriteLine($"Db upgrade exception thrown: {dbUpgradeResult.Error}");
-                //}
-
-                //Environment.Exit(dbUpgradeResult.Successful ? 0 : 1);
+                Environment.Exit(dbUpgradeResult.Successful ? 0 : 1);
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Db upgrade exception thrown: {ex.ToString()}");
                 Debug.WriteLine($"Exception: {ex.ToString()}");
                 Environment.Exit(1);
-
-                return -1;
             }
         }
         private static void WWTEnsureDatabase(string connectionString)
         {
             string databaseName = null;
-            
+
             SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder(connectionString);
-            databaseName = builder.InitialCatalog; 
+            databaseName = builder.InitialCatalog;
             builder.InitialCatalog = "master";
 
             using (var connection = new SqlConnection(builder.ConnectionString))
@@ -113,7 +83,10 @@ namespace EF_WWT.DbUp
             {
                 upgrader = DeployChanges.To
                     .SqlDatabase(connectionString)
-                    .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
+                    .WithScripts(scripts)
+                    .WithTransactionPerScript()
+                    .LogToTrace()
+
                     .LogToConsole()
                     .LogScriptOutput();
             }
@@ -121,7 +94,8 @@ namespace EF_WWT.DbUp
             {
                 upgrader = DeployChanges.To
                     .SqlDatabase(connectionString)
-                    .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly())
+                    .WithScripts(scripts)
+                    .LogToTrace()
                     .LogToConsole()
                     .LogScriptOutput();
             }

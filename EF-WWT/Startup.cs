@@ -11,6 +11,7 @@ using EF_WWT.Data;
 using EF_WWT.Mappers;
 using System.Collections.Generic;
 using EF_WWT.Domain;
+using EF_WWT.Filters;
 
 namespace EF_WWT
 {
@@ -28,9 +29,11 @@ namespace EF_WWT
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
+            services
+                .AddMvc(opts => opts.Filters.Add<WWTExceptionFilter>())
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+                
 
             //Add EF core
             services.AddDbContext<EFWWTContext>((opts) => opts.UseSqlServer(_configuration.EFWWTConnectionString),  ServiceLifetime.Transient);
@@ -43,7 +46,9 @@ namespace EF_WWT
             services.AddAutoMapper(currentAssembly);
 
             //register all other mappers
-            services.AddTransient<IMapper<List<GetContactByName>, List<Contact>>, ContactProfileMapper>(); 
+            services.AddTransient<IMapper<List<GetContactByName>, List<Contact>>, ContactProfileMapper>();
+            services.AddTransient<IWWTExceptionHandler, WWTExceptionHandler>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

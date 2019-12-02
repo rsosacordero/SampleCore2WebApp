@@ -5,6 +5,11 @@ namespace EF_WWT.Data
 {
     public partial class Address
     {
+        public Address()
+        {
+            BusinessEntityAddress = new HashSet<BusinessEntityAddress>();
+        }
+
         public int AddressId { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
@@ -13,5 +18,8 @@ namespace EF_WWT.Data
         public string PostalCode { get; set; }
         public Guid Rowguid { get; set; }
         public DateTime ModifiedDate { get; set; }
+
+        public virtual StateProvince StateProvince { get; set; }
+        public virtual ICollection<BusinessEntityAddress> BusinessEntityAddress { get; set; }
     }
 }

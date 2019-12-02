@@ -13,10 +13,10 @@ namespace EF_WWT.Mappers
             var result = new List<Contact>();
             foreach (var item in destination ?? new List<GetEmailAddressByName>())
             {
-                var resultItem = result.FirstOrDefault(c => c.Id == item.BusinessEntityID);
+                var resultItem = result.FirstOrDefault(c => c.Identifier == item.Identifier);
                 if (resultItem == null)
                 {
-                    var newItem = new Contact(item.BusinessEntityID, item.FirstName, item.LastName, new List<string>() { item.EmailAddress }, new List<string>());
+                    var newItem = new Contact(item.Identifier, item.FirstName, item.LastName, new List<string>() { item.EmailAddress }, new List<string>());
                     result.Add(newItem);
                 }
                 else

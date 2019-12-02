@@ -27,9 +27,10 @@ namespace EF_WWT.Data
         public virtual DbSet<Person> Person { get; set; }
         public virtual DbSet<PersonPhone> PersonPhone { get; set; }
         public virtual DbSet<PhoneNumberType> PhoneNumberType { get; set; }
+        public virtual DbSet<SchemaVersions> SchemaVersions { get; set; }
         public virtual DbSet<StateProvince> StateProvince { get; set; }
-        public virtual DbQuery<GetContactByName> GetContactByName { get; set; }
-        public virtual DbQuery<GetEmailAddressByName> GetEmailAddressByNames{ get; set; }
+        public virtual DbSet<Territory> Territory { get; set; }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -47,6 +48,15 @@ namespace EF_WWT.Data
             modelBuilder.Entity<Address>(entity =>
             {
                 entity.ToTable("Address", "Person");
+
+                entity.HasIndex(e => e.Rowguid)
+                    .HasName("AK_Address_rowguid")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.StateProvinceId);
+
+                entity.HasIndex(e => new { e.AddressLine1, e.AddressLine2, e.City, e.StateProvinceId, e.PostalCode })
+                    .IsUnique();
 
                 entity.Property(e => e.AddressId).HasColumnName("AddressID");
 
@@ -73,11 +83,24 @@ namespace EF_WWT.Data
                     .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.StateProvinceId).HasColumnName("StateProvinceID");
+
+                entity.HasOne(d => d.StateProvince)
+                    .WithMany(p => p.Address)
+                    .HasForeignKey(d => d.StateProvinceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<AddressType>(entity =>
             {
                 entity.ToTable("AddressType", "Person");
+
+                entity.HasIndex(e => e.Name)
+                    .HasName("AK_AddressType_Name")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.Rowguid)
+                    .HasName("AK_AddressType_rowguid")
+                    .IsUnique();
 
                 entity.Property(e => e.AddressTypeId).HasColumnName("AddressTypeID");
 
@@ -98,6 +121,10 @@ namespace EF_WWT.Data
             {
                 entity.ToTable("BusinessEntity", "Person");
 
+                entity.HasIndex(e => e.Rowguid)
+                    .HasName("AK_BusinessEntity_rowguid")
+                    .IsUnique();
+
                 entity.Property(e => e.BusinessEntityId).HasColumnName("BusinessEntityID");
 
                 entity.Property(e => e.ModifiedDate)
@@ -116,6 +143,14 @@ namespace EF_WWT.Data
 
                 entity.ToTable("BusinessEntityAddress", "Person");
 
+                entity.HasIndex(e => e.AddressId);
+
+                entity.HasIndex(e => e.AddressTypeId);
+
+                entity.HasIndex(e => e.Rowguid)
+                    .HasName("AK_BusinessEntityAddress_rowguid")
+                    .IsUnique();
+
                 entity.Property(e => e.BusinessEntityId).HasColumnName("BusinessEntityID");
 
                 entity.Property(e => e.AddressId).HasColumnName("AddressID");
@@ -129,6 +164,21 @@ namespace EF_WWT.Data
                 entity.Property(e => e.Rowguid)
                     .HasColumnName("rowguid")
                     .HasDefaultValueSql("(newid())");
+
+                entity.HasOne(d => d.Address)
+                    .WithMany(p => p.BusinessEntityAddress)
+                    .HasForeignKey(d => d.AddressId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(d => d.AddressType)
+                    .WithMany(p => p.BusinessEntityAddress)
+                    .HasForeignKey(d => d.AddressTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(d => d.BusinessEntity)
+                    .WithMany(p => p.BusinessEntityAddress)
+                    .HasForeignKey(d => d.BusinessEntityId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<BusinessEntityContact>(entity =>
@@ -151,11 +201,30 @@ namespace EF_WWT.Data
                 entity.Property(e => e.Rowguid)
                     .HasColumnName("rowguid")
                     .HasDefaultValueSql("(newid())");
+
+                entity.HasOne(d => d.BusinessEntity)
+                    .WithMany(p => p.BusinessEntityContact)
+                    .HasForeignKey(d => d.BusinessEntityId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(d => d.ContactType)
+                    .WithMany(p => p.BusinessEntityContact)
+                    .HasForeignKey(d => d.ContactTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(d => d.Person)
+                    .WithMany(p => p.BusinessEntityContact)
+                    .HasForeignKey(d => d.PersonId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<ContactType>(entity =>
             {
                 entity.ToTable("ContactType", "Person");
+
+                entity.HasIndex(e => e.Name)
+                    .HasName("AK_ContactType_Name")
+                    .IsUnique();
 
                 entity.Property(e => e.ContactTypeId).HasColumnName("ContactTypeID");
 
@@ -174,6 +243,10 @@ namespace EF_WWT.Data
                     .HasName("PK_CountryRegion_CountryRegionCode");
 
                 entity.ToTable("CountryRegion", "Person");
+
+                entity.HasIndex(e => e.Name)
+                    .HasName("AK_CountryRegion_Name")
+                    .IsUnique();
 
                 entity.Property(e => e.CountryRegionCode)
                     .HasMaxLength(3)
@@ -195,6 +268,8 @@ namespace EF_WWT.Data
 
                 entity.ToTable("EmailAddress", "Person");
 
+                entity.HasIndex(e => e.EmailAddress1);
+
                 entity.Property(e => e.BusinessEntityId).HasColumnName("BusinessEntityID");
 
                 entity.Property(e => e.EmailAddressId)
@@ -212,6 +287,11 @@ namespace EF_WWT.Data
                 entity.Property(e => e.Rowguid)
                     .HasColumnName("rowguid")
                     .HasDefaultValueSql("(newid())");
+
+                entity.HasOne(d => d.BusinessEntity)
+                    .WithMany(p => p.EmailAddress)
+                    .HasForeignKey(d => d.BusinessEntityId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<Password>(entity =>
@@ -251,6 +331,12 @@ namespace EF_WWT.Data
 
                 entity.ToTable("Person", "Person");
 
+                entity.HasIndex(e => e.Rowguid)
+                    .HasName("AK_Person_rowguid")
+                    .IsUnique();
+
+                entity.HasIndex(e => new { e.LastName, e.FirstName, e.MiddleName });
+
                 entity.Property(e => e.BusinessEntityId)
                     .HasColumnName("BusinessEntityID")
                     .ValueGeneratedNever();
@@ -284,6 +370,11 @@ namespace EF_WWT.Data
                 entity.Property(e => e.Suffix).HasMaxLength(10);
 
                 entity.Property(e => e.Title).HasMaxLength(8);
+
+                entity.HasOne(d => d.BusinessEntity)
+                    .WithOne(p => p.Person)
+                    .HasForeignKey<Person>(d => d.BusinessEntityId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<PersonPhone>(entity =>
@@ -292,6 +383,8 @@ namespace EF_WWT.Data
                     .HasName("PK_PersonPhone_BusinessEntityID_PhoneNumber_PhoneNumberTypeID");
 
                 entity.ToTable("PersonPhone", "Person");
+
+                entity.HasIndex(e => e.PhoneNumber);
 
                 entity.Property(e => e.BusinessEntityId).HasColumnName("BusinessEntityID");
 
@@ -302,6 +395,16 @@ namespace EF_WWT.Data
                 entity.Property(e => e.ModifiedDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(d => d.BusinessEntity)
+                    .WithMany(p => p.PersonPhone)
+                    .HasForeignKey(d => d.BusinessEntityId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(d => d.PhoneNumberType)
+                    .WithMany(p => p.PersonPhone)
+                    .HasForeignKey(d => d.PhoneNumberTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
             modelBuilder.Entity<PhoneNumberType>(entity =>
@@ -319,9 +422,30 @@ namespace EF_WWT.Data
                     .HasMaxLength(50);
             });
 
+            modelBuilder.Entity<SchemaVersions>(entity =>
+            {
+                entity.Property(e => e.Applied).HasColumnType("datetime");
+
+                entity.Property(e => e.ScriptName)
+                    .IsRequired()
+                    .HasMaxLength(255);
+            });
+
             modelBuilder.Entity<StateProvince>(entity =>
             {
                 entity.ToTable("StateProvince", "Person");
+
+                entity.HasIndex(e => e.Name)
+                    .HasName("AK_StateProvince_Name")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.Rowguid)
+                    .HasName("AK_StateProvince_rowguid")
+                    .IsUnique();
+
+                entity.HasIndex(e => new { e.StateProvinceCode, e.CountryRegionCode })
+                    .HasName("AK_StateProvince_StateProvinceCode_CountryRegionCode")
+                    .IsUnique();
 
                 entity.Property(e => e.StateProvinceId).HasColumnName("StateProvinceID");
 
@@ -350,15 +474,31 @@ namespace EF_WWT.Data
                     .HasMaxLength(3);
 
                 entity.Property(e => e.TerritoryId).HasColumnName("TerritoryID");
+
+                entity.HasOne(d => d.Territory)
+                    .WithMany(p => p.StateProvince)
+                    .HasForeignKey(d => d.TerritoryId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
             });
 
-            //modelBuilder.Entity<GetContactByName>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.BusinessEntityID }).HasName("PK_FAKEKEY");
-            //    entity.Property(e => e.FirstName).IsRequired();
-            //    entity.Property(e => e.LastName).IsRequired();
-            //    entity.Property(e => e.Addresses).IsRequired();
-            //});                                                
+            modelBuilder.Entity<Territory>(entity =>
+            {
+                entity.ToTable("Territory", "Person");
+
+                entity.Property(e => e.TerritoryId).HasColumnName("TerritoryID");
+
+                entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Rowguid).HasColumnName("rowguid");
+
+                entity.Property(e => e.TerritoryCode)
+                    .IsRequired()
+                    .HasMaxLength(3);
+            });
         }
     }
 }

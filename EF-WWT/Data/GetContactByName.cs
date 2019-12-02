@@ -8,7 +8,7 @@ namespace EF_WWT.Data
 {
     public class GetContactByName
     {
-        public int BusinessEntityID { get; set; }
+        public Guid Identifier { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Address { get; set; }

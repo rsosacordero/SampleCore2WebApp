@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using EF_WWT.Data;
@@ -11,6 +12,7 @@ namespace EF_WWT.CQRS.Queries
 {
     public class GetEmailAddressByNameQuery : IRequest<List<Contact>>
     {
+        public Guid Identifier { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
     }

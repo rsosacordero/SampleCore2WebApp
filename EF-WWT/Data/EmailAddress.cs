@@ -10,5 +10,7 @@ namespace EF_WWT.Data
         public string EmailAddress1 { get; set; }
         public Guid Rowguid { get; set; }
         public DateTime ModifiedDate { get; set; }
+
+        public virtual Person BusinessEntity { get; set; }
     }
 }

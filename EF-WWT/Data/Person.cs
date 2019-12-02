@@ -5,6 +5,13 @@ namespace EF_WWT.Data
 {
     public partial class Person
     {
+        public Person()
+        {
+            BusinessEntityContact = new HashSet<BusinessEntityContact>();
+            EmailAddress = new HashSet<EmailAddress>();
+            PersonPhone = new HashSet<PersonPhone>();
+        }
+
         public int BusinessEntityId { get; set; }
         public string PersonType { get; set; }
         public bool NameStyle { get; set; }
@@ -18,5 +25,10 @@ namespace EF_WWT.Data
         public string Demographics { get; set; }
         public Guid Rowguid { get; set; }
         public DateTime ModifiedDate { get; set; }
+
+        public virtual BusinessEntity BusinessEntity { get; set; }
+        public virtual ICollection<BusinessEntityContact> BusinessEntityContact { get; set; }
+        public virtual ICollection<EmailAddress> EmailAddress { get; set; }
+        public virtual ICollection<PersonPhone> PersonPhone { get; set; }
     }
 }

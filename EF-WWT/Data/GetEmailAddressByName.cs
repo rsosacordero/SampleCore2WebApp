@@ -7,7 +7,7 @@ namespace EF_WWT.Data
 {
     public class GetEmailAddressByName
     {
-        public int BusinessEntityID { get; set; }
+        public Guid Identifier { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string EmailAddress { get; set; }

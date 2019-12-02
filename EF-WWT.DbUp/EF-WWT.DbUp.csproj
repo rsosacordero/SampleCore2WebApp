@@ -9,6 +9,9 @@
   <ItemGroup>
     <None Remove="Migrations\00020-CreateGetContactByNameSProc.sql" />
     <None Remove="Migrations\00030-AlterGetContactByNameSProc.sql" />
+    <None Remove="Migrations\00040-CreateGetEmailAddressByNameSProc.sql" />
+    <None Remove="Migrations\00050-AlterGetEmailAddressByNameSProc.sql" />
+    <None Remove="Migrations\00060-AlterGetContactByNameSProc.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -73,6 +76,21 @@
 
   <ItemGroup>
     <Folder Include="Loaders\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\00040-CreateGetEmailAddressByNameSProc.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\00050-AlterGetEmailAddressByNameSProc.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\00060-AlterGetContactByNameSProc.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

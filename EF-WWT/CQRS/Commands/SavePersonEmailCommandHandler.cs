@@ -27,7 +27,7 @@ namespace EF_WWT.CQRS.Commands
 
         protected async override Task Handle(SavePersonEmailCommand request, CancellationToken cancellationToken)
         {
-            var person = _context.Person.AsNoTracking()
+            var person = _context.Person
                 .Include(c => c.EmailAddress)
                 .FirstOrDefault(c => c.Rowguid == request.PersonIdentifier);
 

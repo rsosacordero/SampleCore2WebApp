@@ -11,7 +11,8 @@
     <None Remove="Migrations\00030-AlterGetContactByNameSProc.sql" />
     <None Remove="Migrations\00040-CreateGetEmailAddressByNameSProc.sql" />
     <None Remove="Migrations\00050-AlterGetEmailAddressByNameSProc.sql" />
-    <None Remove="Migrations\00060-AlterGetContactByNameSProc.sql" />
+    <None Remove="Migrations\00060-AlterGetContactByNameSProc - Copy.sql" />
+    <None Remove="Migrations\00070-AlterStateProvinceAddRegion.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,6 +61,9 @@
     <EmbeddedResource Include="Migrations\00030-AlterGetContactByNameSProc.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\00060-AlterGetContactByNameSProc - Copy.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -88,7 +92,7 @@
     <EmbeddedResource Include="Migrations\00050-AlterGetEmailAddressByNameSProc.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\00060-AlterGetContactByNameSProc.sql">
+    <EmbeddedResource Include="Migrations\00070-AlterStateProvinceAddRegion.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

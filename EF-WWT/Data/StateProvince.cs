@@ -19,6 +19,7 @@ namespace EF_WWT.Data
         public Guid Rowguid { get; set; }
         public DateTime ModifiedDate { get; set; }
 
+        public virtual CountryRegion CountryRegionCodeNavigation { get; set; }
         public virtual Territory Territory { get; set; }
         public virtual ICollection<Address> Address { get; set; }
     }

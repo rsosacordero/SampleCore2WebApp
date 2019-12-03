@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 
 namespace EF_WWT.Data
 {
@@ -28,7 +29,6 @@ namespace EF_WWT.Data
         public virtual DbSet<SchemaVersions> SchemaVersions { get; set; }
         public virtual DbSet<StateProvince> StateProvince { get; set; }
         public virtual DbSet<Territory> Territory { get; set; }
-
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -472,6 +472,12 @@ namespace EF_WWT.Data
                     .HasMaxLength(3);
 
                 entity.Property(e => e.TerritoryId).HasColumnName("TerritoryID");
+
+                entity.HasOne(d => d.CountryRegionCodeNavigation)
+                    .WithMany(p => p.StateProvince)
+                    .HasForeignKey(d => d.CountryRegionCode)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_StateProvince_CountryRegionCode");
 
                 entity.HasOne(d => d.Territory)
                     .WithMany(p => p.StateProvince)
